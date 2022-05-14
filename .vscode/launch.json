@@ -9,7 +9,11 @@
             "type": "python",
             "request": "launch",
             "module": "doubletmaker",
-            "justMyCode": true
+            "justMyCode": true,
+            "args": [
+                "bad",
+                "code"
+            ]
         }
     ]
 }
