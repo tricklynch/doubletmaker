@@ -25,7 +25,7 @@ def find_path(
     end = end.upper()
     words = get_words()
     history: Mapping[str, str] = {}
-    pq: PriorityQueue[Priority] = PriorityQueue()
+    pq: PriorityQueue[Priority[str]] = PriorityQueue()
     pq.put(Priority(0, end))
     while not pq.empty():
         current = pq.get()
