@@ -14,6 +14,17 @@ def mutate(word: str) -> Generator[str, None, None]:
         yield w
 
 
+def backtrack_path(
+    start: str, end: str, history: Mapping[str, str]
+) -> Generator[str, None, None]:
+    word = start
+    while word != end:
+        yield word
+        word = history[word]
+    yield end
+    return
+
+
 def find_path(
     start: str, end: str, mutator: Callable = mutate
 ) -> Generator[str, None, None]:
@@ -28,13 +39,8 @@ def find_path(
         word = current.value
         for mut in mutator(word):
             if mut == start:
-                yield start
-                cur = word
-                while cur != end:
-                    yield cur
-                    cur = history[cur]
-                yield end
-                return
+                history[mut] = word
+                return backtrack_path(start, end, history)
             elif mut not in words:
                 continue
             elif mut not in history:
