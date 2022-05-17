@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from itertools import permutations, product
+from itertools import chain, permutations, product
 from numbers import Real
 from os.path import dirname, join
 from queue import PriorityQueue
@@ -8,13 +8,9 @@ from typing import Callable, Generator, Generic, Mapping, TypeVar
 
 
 def mutate(word: str) -> Generator[str, None, None]:
-    for w in scrambles(word):
-        yield w
-    for w in additions(word):
-        yield w
-    for w in deletions(word):
-        yield w
-    for w in swaps(word):
+    mutation_funcs = [scrambles, additions, deletions, swaps]
+    mutation_iter = chain.from_iterable(m(word) for m in mutation_funcs)
+    for w in mutation_iter:
         yield w
 
 
